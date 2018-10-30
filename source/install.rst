@@ -11,7 +11,7 @@ Install
 Install from source code
 ========================
 
-All platforms require ``expat``, ``libyaml``, ``openssl`` and ``libcurl`` development libraries installed.
+All platforms require the ``expat``, ``libyaml``, ``openssl`` and ``libcurl`` development libraries installed.
 
 Centos
 ------
