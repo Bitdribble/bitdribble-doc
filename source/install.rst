@@ -38,7 +38,6 @@ Centos 7 has been tested. The default ``cmake`` on Centos 7 is version 2. We nee
    cd .../bitdribble
    mkdir build && cd build && cmake3 ..
    make
-   make test
    sudo make install
 
 The *make install* command will install headers, libraries and binaries under */usr/local*. The installer can also be packaged as an ``rpm`` package.
@@ -78,7 +77,6 @@ Ubuntu 18.04 has been tested. The default ``cmake`` on Ubuntu 18.04 has version 
   cd .../bitdribble
   mkdir build && cd build && cmake ..
   make
-  make test
   sudo make install
 
 The *make install* command will install headers, libraries and binaries under */usr/local*. The installer can also be packaged as a ``deb`` package:
@@ -127,7 +125,6 @@ After upgrading all the packages, the root file system became 35% full. To compi
   cd .../bitdribble
   mkdir build && cd build && cmake ..
   make
-  make test
   sudo make install
 
 The *make install* command will install headers, libraries and binaries under */usr/local*. The installer can also be packaged as a ``deb`` package:
@@ -182,7 +179,6 @@ The default ``openssl`` and ``curl`` libraries installed by OSX are incompatible
    cd .../bitdribble
    mkdir build && cd build && cmake ..
    make
-   make test
 
 Cygwin 
 ------
@@ -202,7 +198,6 @@ In a Cygwin bash terminal, do the following:
 
    mkdir ../cygwin && cd ../cygwin && cmake ../cygwin
    make
-   make test
 
 The install step will install the packages under ``/usr/local/bin`` and ``/usr/local/include``, in the cygwin installation tree:
 
@@ -235,28 +230,46 @@ Or this for 32 bit Windows builds:
    make
 
 
-When using 32 bit ``Cygwin``, the toolchain files need to be modified accordingly. When executing ``make tests``, or ``ctest``, you need to manually pass the PATH to the toolchain sysroot dlls:
-
-.. code-block:: none
-
-   PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/bin:$PATH make test
-
-respectively
-
-.. code-block:: none
-
-   PATH=/usr/i686-w64-mingw32/sys-root/mingw/bin:$PATH make test
-
 The install step will install the packages under ``/usr/local/bin`` and ``/usr/local/include``, in the cygwin installation tree. Note that the ``expat``, ``libyaml``, ``ssl`` and ``curl`` libraries are dependencies and need to be manually copied in the ``PATH``.
 
 .. code-block:: none
 
    make install
 
+Run the unit tests
+==================
+After compiling from sources, and before ``make install``, you can optionally run the unit tests:
+
+.. code-block:: none
+
+   make test
+
+You can selectively run some of the tests by executing ``ctest`` instead of ``make test``, passing a substring of the test labels using the ``-R`` argument:
+
+.. code-block:: none
+
+   ctest -R bitd-agent
+
+This command will run all tests with labels containing ``bitd-agent`` as substring. To run all tests except those matchin the substring ``long`` in the test label:
+
+.. code-block:: none
+
+   ctest -E long
+
+These commands will work on all platforms except on Win32 mingw builds, where you must put ``/usr/x86_64-w64-mingw32/sys-root/mingw/bin`` in the ``PATH``:
+
+.. code-block:: none
+
+   export PATH=/usr/x86_64-w64-mingw32/sys-root/mingw/bin:$PATH
+   make test
+   ctest -R bitd-agent
+   ctest -E long
+
+Test labels contain ``bitd-agent`` when the program tested is the ``bitd-agent`` itself. Executing all ``bitd-agent`` tests will cover test modules as well as the ``bitd-agent`` itself. Blocking tests that take multiple seconds to run contain ``long`` in the label, and can be skipped if a quick sanity check test run is desired.
 
 Install precompiled packages
 ============================
-At this point, packages must be manually compiled. Precompiled versions are not available. When an ``rpm`` or ``deb`` package has been compiled, install it withe usual ``rpm`` and ``dpkg`` commands, then enable and start the ``bitd`` service.
+At this point, packages must be manually compiled. Precompiled versions are not available. When an ``rpm`` or ``deb`` package has been compiled, install it with the usual ``rpm`` and ``dpkg`` commands, then enable and start the ``bitd`` service.
 
 .. code-block:: none
 
