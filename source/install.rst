@@ -269,7 +269,7 @@ Test labels contain ``bitd-agent`` when the program tested is the ``bitd-agent``
 
 Install precompiled packages
 ============================
-At this point, packages must be manually compiled. Precompiled versions are not available. When an ``rpm`` or ``deb`` package has been compiled, install it with the usual ``rpm`` and ``dpkg`` commands, then enable and start the ``bitd`` service.
+At this point, Bitdribble packages must be manually compiled. Precompiled Bitdribble packages are not available. When an ``rpm`` or ``deb`` package has been compiled, install it with the usual ``rpm`` and ``dpkg`` commands, then enable and start the ``bitd`` service.
 
 .. code-block:: none
 
