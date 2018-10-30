@@ -27,6 +27,8 @@ Install from source code
 
 All platforms require the ``expat``, ``libyaml``, ``openssl`` and ``libcurl`` development libraries installed.
 
+.. To do: include libmicrohttpd and libmicrohttpd-devel once we need it.
+
 Centos
 ------
 Centos 7 has been tested. The default ``cmake`` on Centos 7 is version 2. We need cmake version 3, which we install and execute as ``cmake3``.
