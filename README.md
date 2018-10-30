@@ -6,7 +6,7 @@ This repository holds documentation for the bitdribble project. The documentatio
 make html
 ```
 
-To install the documentation on http://bitdribble.com/doc (requires ssh keys for access):
+To install the documentation on http://bitdribble.com/doc (requires ssh key for access):
 
 ```
 make install 
