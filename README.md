@@ -1,6 +1,6 @@
 # Bitdribble [![Documentation Status](https://readthedocs.org/projects/bitdribble/badge/?version=latest)](https://bitdribble.readthedocs.io/en/latest/?badge=latest)
 
-This repository holds documentation for the bitdribble project. The documentation can be viewed at https://bitdribble.readthedocs.io. To build the html documentation:
+This repository holds documentation for Bitdribble, an open source dev/ops software suite. The documentation can be viewed at https://bitdribble.readthedocs.io. To build the html documentation:
 
 ```
 make html
