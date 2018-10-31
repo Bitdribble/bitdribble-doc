@@ -147,6 +147,12 @@ The ``exec`` task spawns a child process and reports as results its exit code, i
 
 * ``args->command-tmo`` holds the maximum duration, in seconds, of the child process. If the child process does not exit within the configured ``command-tmo``, it is terminated. This parameter is optional, and can be useful to set a limit to the run duration of the child process.
 
+* ``args->output-type: {auto, string, blob, xml, yaml}`` configures whether the ``stdout`` is parsed as string, blob, xml or yaml. If configured as ``auto``, the ``stdout`` is checked, in order, for ``xml``, ``yaml``, ``string`` content, and is displayed respectively as ``xml``, ``yaml``, ``string``, or, if none of the above applies, as ``blob``. The default value of the parameter is ``auto``. 
+
+The output is considered to be ``xml`` or ``yaml`` if the ``xml``, respectively the ``yaml`` parser encounters no error. It is considered to be ``string`` format if it contains no ``NULL`` characters aside from the ``NULL`` termination.
+
+* ``args->error-type: {auto, string, blob, xml, yaml}`` configures whether the ``stderr`` is parsed as ``string``, ``blob``, ``xml`` or ``yaml``. If configured as ``auto``, the ``stderr`` is checked, in order, for ``xml``, ``yaml``, ``string`` content, and is displayed respectively as ``xml``, ``yaml``, ``string``, or, if none of the above applies, as ``blob``. The default value of the parameter is ``auto``. 
+
 * The task instance ``tags`` are passed in as environment variables to the child process. Recall that ``tags`` can be task instance scoped, module scoped, or globally scoped at the level of the configuration file. Tags from all three scopes are merged together, with module scope tags taking precedence over global scoped tags, and task instance scoped tags taking precedence over module scope tags. 
 
 TO DO: explain conversion of tags to environment variables. Right now, only tags of string types with non-empty names are passed in as environment variables.
