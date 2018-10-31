@@ -155,7 +155,7 @@ The ``exec`` task spawns a child process and reports as results its exit code, i
 
   * ``error-type: {auto, string, blob, xml, yaml}`` configures whether the ``stderr`` is parsed as ``string``, ``blob``, ``xml`` or ``yaml``. If configured as ``auto``, the ``stderr`` is checked, in order, for ``xml``, ``yaml``, ``string`` content, and is displayed respectively as ``xml``, ``yaml``, ``string``, or, if none of the above applies, as ``blob``. The default value of the parameter is ``auto``. 
 
-* The ``input`` parameter is used to pass in standard input to the shell child process.
+* The ``input`` parameter passed as standard input to the child process. If the ``input`` is ``string`` format, it is passed as ``string`` to the child process. If the ``input`` is ``blob``, it is passed as ``blob`` to the child process. Else, the ``input`` is passed to the child as ``yaml``.
 
 The task instance ``tags`` are passed down to the child process as environment variables. Recall that ``tags`` can be task instance scoped, module scoped, or globally scoped at the level of the configuration file. Tags from all three scopes are merged together, with module scope tags taking precedence over global scoped tags, and task instance scoped tags taking precedence over module scope tags. 
 
