@@ -159,7 +159,7 @@ The ``exec`` task spawns a child process and reports as results its exit code, i
 
 The task instance ``tags`` are passed down to the child process as environment variables. Recall that ``tags`` can be task instance scoped, module scoped, or globally scoped at the level of the configuration file. Tags from all three scopes are merged together, with module scope tags taking precedence over global scoped tags, and task instance scoped tags taking precedence over module scope tags. 
 
-TO DO: explain conversion of tags to environment variables. Right now, only tags of string types with non-empty names are passed in as environment variables.
+.. TO DO: explain conversion of tags to environment variables. Right now, only tags of string types with non-empty names are passed in as environment variables.
 
 The shell child process will have an exit code, and will output ``stdout`` and ``stderr``:
 
