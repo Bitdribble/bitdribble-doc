@@ -143,31 +143,31 @@ exec task
 ^^^^^^^^^
 The ``exec`` task spawns a child process and reports as results its exit code, its ``stdout`` and ``stderr``. The following parameters can be configured:
 
-* ``args->command`` holds the executable command name and arguments. The command name and the arguments are space separated. This parameter is required.
+* ``args`` holds the following subparameters:
 
-* ``args->command-tmo`` holds the maximum duration, in seconds, of the child process. If the child process does not exit within the configured ``command-tmo``, it is terminated. This parameter is optional, and can be useful to set a limit to the run duration of the child process.
+  * ``command`` holds the executable command name and arguments. The command name and the arguments are space separated. This parameter is required.
 
-* ``args->output-type: {auto, string, blob, xml, yaml}`` configures whether the ``stdout`` is parsed as string, blob, xml or yaml. If configured as ``auto``, the ``stdout`` is checked, in order, for ``xml``, ``yaml``, ``string`` content, and is displayed respectively as ``xml``, ``yaml``, ``string``, or, if none of the above applies, as ``blob``. The default value of the parameter is ``auto``. 
+  * ``command-tmo`` holds the maximum duration, in seconds, of the child process. If the child process does not exit within the configured ``command-tmo``, it is terminated. This parameter is optional, and can be useful to set a limit to the run duration of the child process.
 
-The output is considered to be ``xml`` or ``yaml`` if the ``xml``, respectively the ``yaml`` parser encounters no error. It is considered to be ``string`` format if it contains no ``NULL`` characters aside from the ``NULL`` termination.
+  * ``output-type: {auto, string, blob, xml, yaml}`` configures whether the ``stdout`` is parsed as string, blob, xml or yaml. If configured as ``auto``, the ``stdout`` is checked, in order, for ``xml``, ``yaml``, ``string`` content, and is displayed respectively as ``xml``, ``yaml``, ``string``, or, if none of the above applies, as ``blob``. The default value of the parameter is ``auto``. 
 
-* ``args->error-type: {auto, string, blob, xml, yaml}`` configures whether the ``stderr`` is parsed as ``string``, ``blob``, ``xml`` or ``yaml``. If configured as ``auto``, the ``stderr`` is checked, in order, for ``xml``, ``yaml``, ``string`` content, and is displayed respectively as ``xml``, ``yaml``, ``string``, or, if none of the above applies, as ``blob``. The default value of the parameter is ``auto``. 
+  The output is considered to be ``xml`` or ``yaml`` if the ``xml``, respectively the ``yaml`` parser encounters no error. It is considered to be ``string`` format if it contains no ``NULL`` characters aside from the ``NULL`` termination.
 
-* The task instance ``tags`` are passed in as environment variables to the child process. Recall that ``tags`` can be task instance scoped, module scoped, or globally scoped at the level of the configuration file. Tags from all three scopes are merged together, with module scope tags taking precedence over global scoped tags, and task instance scoped tags taking precedence over module scope tags. 
+  * ``error-type: {auto, string, blob, xml, yaml}`` configures whether the ``stderr`` is parsed as ``string``, ``blob``, ``xml`` or ``yaml``. If configured as ``auto``, the ``stderr`` is checked, in order, for ``xml``, ``yaml``, ``string`` content, and is displayed respectively as ``xml``, ``yaml``, ``string``, or, if none of the above applies, as ``blob``. The default value of the parameter is ``auto``. 
+
+* The ``input`` parameter is used to pass in standard input to the shell child process.
+
+The task instance ``tags`` are passed down to the child process as environment variables. Recall that ``tags`` can be task instance scoped, module scoped, or globally scoped at the level of the configuration file. Tags from all three scopes are merged together, with module scope tags taking precedence over global scoped tags, and task instance scoped tags taking precedence over module scope tags. 
 
 TO DO: explain conversion of tags to environment variables. Right now, only tags of string types with non-empty names are passed in as environment variables.
-
-* Standard input. The ``input`` parameter is used to pass in standard input to the shell child process.
 
 The shell child process will have an exit code, and will output ``stdout`` and ``stderr``:
 
 * The exit code is reported back as the ``exit-code`` result.
 
-* The ``stdout`` is reported back as the ``output`` result.
+* The ``stdout`` is reported back as the ``output`` result. The ``args.output-type`` parameter controls how ``stdout`` is parsed.
 
-* The ``stderr`` is reported back as the ``error`` result.
-
-The format of the ``stdout`` and ``stderr`` is, by default, autodetected as either ``xml``, ``yaml``, ``string`` or ``blob``. 
+* The ``stderr`` is reported back as the ``error`` result. The ``args.error-type`` parameter controls how ``stdout`` is parsed.
 
 The shell command is specified by the ``command`` subparameter of ``args``:
 
