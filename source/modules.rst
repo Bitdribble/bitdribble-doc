@@ -149,13 +149,15 @@ The ``exec`` task spawns a child process and reports as results its exit code, i
 
   * ``command-tmo`` holds the maximum duration, in seconds, of the child process. If the child process does not exit within the configured ``command-tmo``, it is terminated. This parameter is optional, and can be useful to set a limit to the run duration of the child process.
 
+  * ``input-type: {auto, string, blob, xml, yaml}`` configures whether the ``input`` parameter is formatted as string, blob, xml or yaml before being passed as ``stdin`` to the child process. If configured as ``auto``, the ``input`` will be formatted as ``yaml``, except if ``input`` is of ``blob`` type, in which case it is formatted as blob. The default value of the parameter is ``auto``. 
+
   * ``output-type: {auto, string, blob, xml, yaml}`` configures whether the ``stdout`` is parsed as string, blob, xml or yaml. If configured as ``auto``, the ``stdout`` is checked, in order, for ``xml``, ``yaml``, ``string`` content, and is displayed respectively as ``xml``, ``yaml``, ``string``, or, if none of the above applies, as ``blob``. The default value of the parameter is ``auto``. 
 
-  The output is considered to be ``xml`` or ``yaml`` if the ``xml``, respectively the ``yaml`` parser encounters no error. It is considered to be ``string`` format if it contains no ``NULL`` characters aside from the ``NULL`` termination.
+    The output is considered to be ``xml`` or ``yaml`` if the ``xml``, respectively the ``yaml`` parser encounters no error. It is considered to be ``string`` format if it contains no ``NULL`` characters aside from the ``NULL`` termination.
 
   * ``error-type: {auto, string, blob, xml, yaml}`` configures whether the ``stderr`` is parsed as ``string``, ``blob``, ``xml`` or ``yaml``. If configured as ``auto``, the ``stderr`` is checked, in order, for ``xml``, ``yaml``, ``string`` content, and is displayed respectively as ``xml``, ``yaml``, ``string``, or, if none of the above applies, as ``blob``. The default value of the parameter is ``auto``. 
 
-* The ``input`` parameter passed as standard input to the child process. If the ``input`` is ``string`` format, it is passed as ``string`` to the child process. If the ``input`` is ``blob``, it is passed as ``blob`` to the child process. Else, the ``input`` is passed to the child as ``yaml``.
+* The ``input`` parameter is passed as standard input to the child process. The format of the ``stdin`` buffer is determined by the ``args.input-type`` parameter.
 
 The task instance ``tags`` are passed down to the child process as environment variables. Recall that ``tags`` can be task instance scoped, module scoped, or globally scoped at the level of the configuration file. Tags from all three scopes are merged together, with module scope tags taking precedence over global scoped tags, and task instance scoped tags taking precedence over module scope tags. 
 
