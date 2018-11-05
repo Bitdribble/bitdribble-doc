@@ -288,3 +288,21 @@ bitd_double
    <!-- but not -->
    <element-name>123</element-name><!-- ...which would be interpreted as int64 -->
    
+bitd_string
+-----------
+``bitd_string`` types are represented as ``xml`` elements having as contents the string value. Optionally, these elements can be assigned a ``type='string'`` attribute. If the value cannot be interpreted as a ``bitd_void``, ``bitd_boolean``, ``bitd_int64``, ``bitd_uint64``, ``bitd_double``, then the attribute can be omitted.
+
+.. code-block:: xml
+
+   <element-name>abc</element-name>
+   <!-- or -->
+   <element-name type='string'>abc</element-name>
+   <!-- but not -->
+   <element-name></element-name><!-- ...which would be interpreted as void -->
+   <!-- and not -->
+   <element-name>TRUE</element-name><!-- ...which would be interpreted as boolean -->
+   <!-- and not -->
+   <element-name>123</element-name><!-- ...which would be interpreted as int64 -->
+   <!-- and not -->
+   <element-name>123.0</element-name><!-- ...which would be interpreted as double -->
+   
