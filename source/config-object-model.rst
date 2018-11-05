@@ -238,8 +238,53 @@ bitd_void
 ---------
 ``bitd_void`` types are represented as empty ``xml`` elements. Optionally, these elements can be assigned a ``type='void'`` attribute.
 
-Only ``xml`` documents with specific attributes have a named ``object`` correspondent.
+.. code-block:: xml
 
-     
-A Bitdribble object is converted into an XML document.  Simple bitdribble types are represented in ``yaml`` as follows:
+   <element-name/>
+   <!-- or -->
+   <element-name type='void'/>
 
+bitd_boolean
+------------
+``bitd_boolean`` types are represented as ``xml`` elements having the ``TRUE`` or ``FALSE`` boolean value as contents. Optionally, these elements can be assigned a ``type='boolean'`` attribute.
+
+.. code-block:: xml
+
+   <element-name>FALSE</element-name>
+   <!-- or -->
+   <element-name type='boolean'>FALSE</element-name>
+
+bitd_int64
+------------
+``bitd_int64`` types are represented as ``xml`` elements having as contents the integer value. Optionally, these elements can be assigned a ``type='int64'`` attribute. If the integer is between ``LLONG_MIN`` and ``LLONG_MAX``, the attribute can be omitted.
+
+.. code-block:: xml
+
+   <element-name>123</element-name>
+   <!-- or -->
+   <element-name type='int64'>123</element-name>
+
+bitd_uint64
+------------
+``bitd_uint64`` types are also represented as ``xml`` elements having as contents the integer value. Optionally, these elements can be assigned a ``type='uint64'`` attribute. If the integer is between ``LLONG_MAX+1`` and ``ULLONG_MAX``, the attribute can be omitted.
+
+.. code-block:: xml
+
+   <element-name>18446744073709551615</element-name>
+   <!-- or -->
+   <element-name type='uint64'>123</element-name>
+
+bitd_double
+------------
+``bitd_double`` types are represented as ``xml`` elements having as contents the numeric value. Optionally, these elements can be assigned a ``type='double'`` attribute. If the number has a decimal point or is not a ``bitd_int64`` or ``bitd_uint64``, the attribute can be omitted.
+
+.. code-block:: xml
+
+   <element-name>123.1</element-name>
+   <!-- or -->
+   <element-name>123.0</element-name>
+   <!-- or -->
+   <element-name type='double'>123</element-name>
+   <!-- but not -->
+   <element-name>123</element-name><!-- ...which would be interpreted as int64 -->
+   
