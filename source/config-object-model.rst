@@ -56,6 +56,8 @@ The composite data types for ``C`` objects are:
 
    #define bitd_blob_size(b) ((b)->nbytes)
    #define bitd_blob_payload(b) ((char *)(((bitd_blob *)b)+1))
+
+Another composite type is:
  
 - ``bitd_nvp_t``, which holds an array of name-value pairs, each element of which has its own type. In short, this type is called an ``nvp``. Elements in an ``nvp`` can have any simple or composite type, including the ``nvp`` type itself.
 
@@ -101,6 +103,20 @@ The composite data types for ``C`` objects are:
        int n_elts_allocated;
        bitd_nvp_element_t e[1]; /* Array of named objects */
    } *bitd_nvp_t;
+
+The last composite type is:
+
+- ``bitd_object_t``, which holds any arbitrary typed value:
+ 
+.. code-block:: c++
+
+   /* An object is a typed value */
+   typedef struct {
+       bitd_value_t v;
+       bitd_type_t type;
+   } bitd_object_t;
+
+Any object, thus, can be represented as ``bitd_object_t``. This means objects can be ``bitd_boolean``, or ``bitd_int64``, or of ``nvp`` type. And, since ``nvp``` is an array type, the objects of type ``nvp`` can be thought of as arrays of other objects.
 
 
 The Yaml object model
