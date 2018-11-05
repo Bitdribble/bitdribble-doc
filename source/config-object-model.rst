@@ -31,21 +31,34 @@ The C object model
 ==================
 Look at the ``include/bitd/platform-types.h`` header for the data types defined below. The primary ``C`` data types are:
 
-- ``bitd_void`` - the empty type.
+bitd_void
+---------
 
-- ``bitd_boolean`` - defined as ``signed char``, holding ``FALSE`` as ``0`` and ``TRUE`` as any non-zero value.
+``bitd_void`` represents the empty type, and is defined as the ``C`` type ``void``.
 
-- ``bitd_int64``, ``bitd_uint64`` - the unsigned and signed 64 bit data types, defined as ``long long``, resp. ``unsigned long long`` on all platforms where ``long long`` is 64 bits.
+bitd_boolean
+------------
+``bitd_boolean`` is defined as ``signed char``, and holds ``FALSE`` as ``0`` and ``TRUE`` as any non-zero value.
 
-- ``bitd_double`` - the double float type.
+bitd_int64, bitd_uint64
+-----------------------
+``bitd_int64``, ``bitd_uint64`` are unsigned and signed 64 bit data types, defined as ``long long``, resp. ``unsigned long long`` on all platforms where ``long long`` is 64 bits.
 
-The header file defines, in similar vein, data types for smaller width integers: ``bitd_int8``, ``bitd_uint8``, ``bitd_int16``, ``bitd_uint16``, ``bitd_int32``, ``bitd_uint32``. While these types are used frequently in the source code, the Bitdribble object model represents all integers parsed from ``yaml`` or ``xml`` as either ``bitd_int64`` or ``bitd_uint64``, for simplicity. No ``bitd_float`` type is defined - we use ``bitd_double`` instead.
+The header file defines, in similar vein, data types for smaller width integers: ``bitd_int8``, ``bitd_uint8``, ``bitd_int16``, ``bitd_uint16``, ``bitd_int32``, ``bitd_uint32``. While these types are used frequently in the source code, the Bitdribble object model represents all integers parsed from ``yaml`` or ``xml`` as either ``bitd_int64`` or ``bitd_uint64``, for simplicity. 
+
+bitd_double
+-----------
+``bitd_double`` is mapped to the ``C`` language ``double`` float type. No ``bitd_float`` type is defined - we use ``bitd_double`` instead.
 
 The composite data types for ``C`` objects are:
 
-- ``bitd_string``, for NULL-terminated ``char *`` strings.
+bitd_string
+-----------
+``bitd_string`` is used for NULL-terminated ``char *`` strings.
 
-- ``bitd_blob``, which holds arbitray buffers that may contain the character ``0``. The ``bitd_blob`` contains a 4 byte length field followed by the actual blob payload. 
+bitd_blob
+---------
+``bitd_blob`` holds arbitray buffers that may contain the character ``0``. The ``bitd_blob`` contains a 4 byte length field followed by the actual blob payload. 
 
 .. code-block:: c++
 
@@ -57,9 +70,9 @@ The composite data types for ``C`` objects are:
    #define bitd_blob_size(b) ((b)->nbytes)
    #define bitd_blob_payload(b) ((char *)(((bitd_blob *)b)+1))
 
-Another composite type is:
- 
-- ``bitd_nvp_t``, which holds an array of name-value pairs, each element of which has its own type. In short, this type is called an ``nvp``. Elements in an ``nvp`` can have any simple or composite type, including the ``nvp`` type itself.
+Nvp
+---
+``bitd_nvp_t`` holds an array of name-value pairs, each element of which has its own type. In short, this type is called an ``nvp``. Elements in an ``nvp`` can have any simple or composite type, including the ``nvp`` type itself.
 
 .. code-block:: c++
 
@@ -104,9 +117,9 @@ Another composite type is:
        bitd_nvp_element_t e[1]; /* Array of named objects */
    } *bitd_nvp_t;
 
-The last composite type is:
-
-- ``bitd_object_t``, which holds any arbitrary typed value:
+Object
+------
+The ``bitd_object_t`` type holds any arbitrary typed value:
  
 .. code-block:: c++
 
