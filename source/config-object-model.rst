@@ -13,11 +13,11 @@
    limitations under the License.
 
 *******************
-Config object model
+Configuration model
 *******************
 
 .. index::
-   single: Configuration object model
+   single: Configuration model
 
 .. contents:: Table of Contents
 

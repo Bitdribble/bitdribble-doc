@@ -26,7 +26,7 @@ Bitdribble documentation
 
    install
    bitd-agent
-   config-model
+   config-object-model
    modules
    demo
 
