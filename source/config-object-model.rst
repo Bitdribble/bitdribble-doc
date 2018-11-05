@@ -117,8 +117,8 @@ Nvp arrays
        bitd_nvp_element_t e[1]; /* Array of named objects */
    } *bitd_nvp_t;
 
-Object
-------
+Objects
+-------
 The ``bitd_object_t`` type holds any arbitrary typed value:
  
 .. code-block:: c++
@@ -166,8 +166,8 @@ Nvp arrays
 ----------
 ``bitd_nvp_t`` types are represented in ``yaml`` as non-scalar name-value pairs. ``Nvp`` arrays with all elements having NULL names are represented as ``yaml`` sequences. Conversely, ``yaml`` composite types are represented as ``nvp`` arrays, and ``yaml`` sequences are represented as nvp arrays with NULL-named elements.
 
-Object
-------
+Objects
+-------
 The ``bitd_object_t`` type is represented in ``yaml`` simply by representing the underlying type and value of the object in ``yaml``. Conversely, a ``yaml`` document is represented by a ``bitd_object_t`` type.
 
 This sets a correspondence between objects and ``yaml`` documents that is *onto*, in a mathematical sense: any ``yaml`` document corresponds to one or more objects. To see why this correspondence is not also *one to one*, observe that objects containing a string that is an integer corresponds to a ``yaml`` document containing that number's value, which in turn corresponds to an object of integer type.
