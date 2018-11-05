@@ -204,9 +204,9 @@ For an introduction to ``xml``, see https://en.wikipedia.org/wiki/XML. For a qui
    <root-element-name>
      <element-name1/>
      <element-name2>127</element-name2>
-     <element-name3 attribute1="value1" attribute2="value2">abc</element-name3>
+     <element-name3 attribute1='value1' attribute2='value2'>abc</element-name3>
      <element-name4>
-       <embedded-element-name5 attribute1="value1">def</embedded-element-name5>
+       <embedded-element-name5 attribute1='value1'>def</embedded-element-name5>
      </element-name4>
    </root-element-name>
 
@@ -305,4 +305,121 @@ bitd_string
    <element-name>123</element-name><!-- ...which would be interpreted as int64 -->
    <!-- and not -->
    <element-name>123.0</element-name><!-- ...which would be interpreted as double -->
+   
+bitd_blob
+---------
+``bitd_blob`` types are represented as ``xml`` elements having as contents the *base64* encoded blob. These elements must be assigned a ``type='blob'`` attribute, to be distinguished from other strings. The attribute can never be omitted.
+
+.. code-block:: xml
+
+   <element-name type='blob'>MDEyMzQ1Njc4OQo=</element-name>
+
+To find out to which blob contents this corresponds, you can uudecode it as follows:
+
+.. code-block:: shell
+
+   $ echo MDEyMzQ1Njc4OQo= | base64 -d
+   0123456789
+   
+bitd_nvp
+--------
+``bitd_nvp`` types are name-value pair arrays and are represented as ``xml`` elements with subelements. Here is, for example, an ``nvp`` with elements of all possible types:
+
+.. code-block:: xml
+
+   <?xml version='1.0'?>
+   <nvp type='nvp'>
+     <name-void type='void'/>
+     <name-boolean type='boolean'>FALSE</name-boolean>
+     <name-int8 type='int64'>-128</name-int8>
+     <name-int8 type='int64'>127</name-int8>
+     <name-uint8 type='int64'>255</name-uint8>
+     <name-int16 type='int64'>-32768</name-int16>
+     <name-int16 type='int64'>32767</name-int16>
+     <name-uint16 type='int64'>65535</name-uint16>
+     <name-int32 type='int64'>-2147483648</name-int32>
+     <name-int32 type='int64'>2147483647</name-int32>
+     <name-uint32 type='int64'>4294967295</name-uint32>
+     <name-int64 type='int64'>-9223372036854775808</name-int64>
+     <name-int64 type='int64'>9223372036854775807</name-int64>
+     <name-uint64 type='uint64'>18446744073709551615</name-uint64>
+     <name-double type='double'>100000.0</name-double>
+     <name-string type='string'/>
+     <name-string type='string'>True</name-string>
+     <name-string type='string'>123</name-string>
+     <name-string type='string'>123.0</name-string>
+     <name-string type='string'>string-value</name-string>
+     <name-blob type='blob'>MDEyMzQ1Njc4OQo=</name-blob>
+     <empty-nvp-value type='nvp'/>
+     <full-nvp-value type='nvp'>
+       <name-void type='void'/>
+       <name-boolean type='boolean'>FALSE</name-boolean>
+       <name-int8 type='int64'>-127</name-int8>
+       <name-uint8 type='int64'>255</name-uint8>
+       <name-int16 type='int64'>-32767</name-int16>
+       <name-uint16 type='int64'>65535</name-uint16>
+       <name-int32 type='int64'>-2147483647</name-int32>
+       <name-uint32 type='int64'>4294967295</name-uint32>
+       <name-int64 type='int64'>-9223372036854775807</name-int64>
+       <name-uint64 type='uint64'>18446744073709551615</name-uint64>
+       <name-double type='double'>1.99</name-double>
+       <name-string type='string'/>
+       <name-string type='string'>True</name-string>
+       <name-string type='string'>123</name-string>
+       <name-string type='string'>123.0</name-string>
+       <name-string type='string'>string-value</name-string>
+       <name-blob type='blob'>MDEyMzQ1Njc4OQo=</name-blob>
+       <empty-nvp-value type='nvp'/>
+     </full-nvp-value>
+   </nvp>
+   
+If the nvp is named, the name will be stored as the ``xml`` root element name. If the nvp is unnamed, or has an empty name, by convention the root element name is set to ``nvp`` - as was the case in the example above. Here is the same ``xml`` document leaving out all ``type`` attributes that are optional (meaning that the type of the contents can be inferred from the value of the contents):
+
+.. code-block:: xml
+
+   <?xml version='1.0'?>
+   <nvp>
+     <name-void/>
+     <name-boolean>FALSE</name-boolean>
+     <name-int8>-128</name-int8>
+     <name-int8>127</name-int8>
+     <name-uint8>255</name-uint8>
+     <name-int16>-32768</name-int16>
+     <name-int16>32767</name-int16>
+     <name-uint16>65535</name-uint16>
+     <name-int32>-2147483648</name-int32>
+     <name-int32>2147483647</name-int32>
+     <name-uint32>4294967295</name-uint32>
+     <name-int64>-9223372036854775808</name-int64>
+     <name-int64>9223372036854775807</name-int64>
+     <name-uint64>18446744073709551615</name-uint64>
+     <name-double>100000.0</name-double>
+     <name-string type='string'/>
+     <name-string type='string'>True</name-string>
+     <name-string type='string'>123</name-string>
+     <name-string type='string'>123.0</name-string>
+     <name-string>string-value</name-string>
+     <name-blob type='blob'>MDEyMzQ1Njc4OQo=</name-blob>
+     <empty-nvp-value type='nvp'/>
+     <full-nvp-value>
+       <name-void/>
+       <name-boolean>FALSE</name-boolean>
+       <name-int8>-127</name-int8>
+       <name-uint8>255</name-uint8>
+       <name-int16>-32767</name-int16>
+       <name-uint16>65535</name-uint16>
+       <name-int32>-2147483647</name-int32>
+       <name-uint32>4294967295</name-uint32>
+       <name-int64>-9223372036854775807</name-int64>
+       <name-uint64>18446744073709551615</name-uint64>
+       <name-double>1.99</name-double>
+       <name-string type='string'/>
+       <name-string type='string'>True</name-string>
+       <name-string type='string'>123</name-string>
+       <name-string type='string'>123.0</name-string>
+       <name-string>string-value</name-string>
+       <name-blob type='blob'>MDEyMzQ1Njc4OQo=</name-blob>
+       <empty-nvp-value type='nvp'/>
+     </full-nvp-value>
+   </nvp>
    
