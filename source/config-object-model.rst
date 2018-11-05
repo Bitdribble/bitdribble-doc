@@ -196,8 +196,50 @@ The implementation of the ``yaml`` object model is in src/libs/bitd/types-yaml.c
 
 The Xml object model
 ====================
-For a quick introduction to ``xml``, see https://en.wikipedia.org/wiki/XML. A Bitdribble object is converted into an  Simple bitdribble types are represented in ``yaml`` as follows:
+For an introduction to ``xml``, see https://en.wikipedia.org/wiki/XML. For a quick introduction, ``xml`` documents emply angle brackets to delineate element names and element content. Elements can have zero or more attributes:
+
+.. code-block:: xml
+
+   <?xml version='1.0'?>
+   <root-element-name>
+     <element-name1/>
+     <element-name2>127</element-name2>
+     <element-name3 attribute1="value1" attribute2="value2">abc</element-name3>
+     <element-name4>
+       <embedded-element-name5 attribute1="value1">def</embedded-element-name5>
+     </element-name4>
+   </root-element-name>
+
+The order of attributes is not important in an element, but the order of subelements matters - in the sense that changing the attribute order does not change the ``xml`` document, but changing the element order does change the ``xml`` document.
+
+We will describe a partial correspondence between ``xml`` documents and *named* bitdribble objects. The ``root-element-name`` corresponds to the *name* of the ``object``. Each ``element-name`` corresponds to the ``name`` of a value in an ``nvp`` name-value pair array. If no attribute is specified, the type of the content is inferred:
+
+- If the element is empty, the type is ``bitd_void``.
+
+- If the element is the string ``TRUE`` or ``FALSE``, the type is ``bitd_boolean``.
+
+- If the element is numeric string, the type is ``bitd_int64`` if an integer between ``LLONG_MIN`` and ``LLONG_MAX``, otherwise ``bitd_uint64`` if an integer between ``LLONG_MAX+1`` and ``ULLONG_MAX``, and otherwise a ``bitd_double``.
+
+- If the element is any other string, the type is ``bitd_string``.
+
+- If the element has sub-elements, the type is ``bitd_nvp_t``.
+
+Using specific ``xml`` attributes changes the type of the element:
+
+- If the element has an attribute named ``type`` with value ``void``, respectively ``boolean``, ``int64``, ``uint64``, ``double``, ``string``,   the type is ``bitd_void``, respectively ``bitd_boolean``, ``bitd_int64``, ``bitd_uint64``, ``bitd_double``, ``bitd_string``.
+
+- If the element has the attribute ``type='blob'``, the value is interpreted to be a base64 encoded ``bitd_blob``.
+
+- If the element has the attribute ``type='nvp'``, the value is interpreted to be of type ``bitd_nvp_t``.
+
+The converse correspondence is described below:
 
 bitd_void
 ---------
-TO BE CONTINUED...
+``bitd_void`` types are represented as empty ``xml`` elements. Optionally, these elements can be assigned a ``type='void'`` attribute.
+
+Only ``xml`` documents with specific attributes have a named ``object`` correspondent.
+
+     
+A Bitdribble object is converted into an XML document.  Simple bitdribble types are represented in ``yaml`` as follows:
+
