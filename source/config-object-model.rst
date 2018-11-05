@@ -102,3 +102,13 @@ The composite data types for ``C`` objects are:
        bitd_nvp_element_t e[1]; /* Array of named objects */
    } *bitd_nvp_t;
 
+
+The Yaml object model
+=====================
+For a quick introduction to ``yaml``, see https://en.wikipedia.org/wiki/YAML. Bitdribble ``c`` objects are represented as yaml as follows:
+
+- ``bitd_void`` is formatted as the empty string. An empty ``yaml`` string is represented as a ``bitd_void`` type.
+
+- ``bitd_boolean`` is represented as the string ``TRUE`` or ``FALSE``. The ``yaml`` string ``TRUE`` and ``FALSE`` are represented as ``bitd_boolean``.
+
+- ``bitd_int64`` and ``bitd_uint64`` are represented in ``yaml`` as numeric strings. Integer in ``yaml`` are represented as ``bitd_int64``, if between ``LLONG_MIN`` and ``LLONG_MAX``, and ``bitd_uint64`` if between ``LLONG_MAX+1`` and ``ULLONG_MAX``.
