@@ -25,6 +25,12 @@ Install
 Install from source code
 ========================
 
+The source code is available under Apache 2.0 license at https://github.com/bitdribble/bitdribble:
+
+.. code-block:: none
+		
+   git clone git@github.com:bitdribble/bitdribble.git
+
 All platforms require the ``expat``, ``libyaml``, ``openssl`` and ``libcurl`` development libraries installed.
 
 .. To do: include libmicrohttpd and libmicrohttpd-devel once we need it.
