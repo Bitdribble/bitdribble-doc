@@ -428,3 +428,6 @@ The task instance schedule can be of one of these types:
 - ``triggered`` and ``triggered-raw:`` these tasks are triggered by other tasks in the config file, and take as input the output of these other tasks. When a task instance is ``triggered``, it gets only the output of the task instance run that triggered it. When a task instance has a ``triggered-raw`` schedule, it gets the ``tags``, ``run-id``, ``run-timestamp``, ``exit-code``, ``output`` and ``error`` of the task instance run that triggered it.
 
 
+Modules and tasks
+-----------------
+For a listing of the available modules, and for the tasks supported in each module, see :ref:`bitd-modules`.
