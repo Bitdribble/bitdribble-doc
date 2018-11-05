@@ -45,9 +45,9 @@ The composite data types for ``C`` objects are:
 
 - ``bitd_string``, for NULL-terminated ``char *`` strings.
 
-- ``bitd_blob``, which holds arbitray buffers that may contain the character ``0``. 
+- ``bitd_blob``, which holds arbitray buffers that may contain the character ``0``. The ``bitd_blob`` contains a 4 byte length field followed by the actual blob payload. 
 
-.. code::
+.. code-block:: c++
 
    /* The blob type */
    typedef struct {
@@ -57,11 +57,9 @@ The composite data types for ``C`` objects are:
    #define bitd_blob_size(b) ((b)->nbytes)
    #define bitd_blob_payload(b) ((char *)(((bitd_blob *)b)+1))
  
-The ``bitd_blob`` contains a 4 byte length field followed by the actual blob payload. 
-
 - ``bitd_nvp_t``, which holds an array of name-value pairs, each element of which has its own type. In short, this type is called an ``nvp``. Elements in an ``nvp`` can have any simple or composite type, including the ``nvp`` type itself.
 
-.. code::
+.. code-block:: c++
 
    /* Forward declaration */
    struct bitd_nvp_s;
