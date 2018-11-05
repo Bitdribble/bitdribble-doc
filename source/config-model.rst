@@ -29,20 +29,78 @@ Understanding the conversion mechanism between ``yaml``, ``xml`` and ``C`` data 
 
 The C object model
 ==================
-Look at the ``include/bitd/platform-types`` header for the data types defined below. The primary data types for ``C`` objects are:
+Look at the ``include/bitd/platform-types.h`` header for the data types defined below. The primary ``C`` data types are:
 
 - ``bitd_void`` - the empty type.
 
 - ``bitd_boolean`` - defined as ``signed char``, holding ``FALSE`` as ``0`` and ``TRUE`` as any non-zero value.
 
-- ``bitd-int64``, ``bitd-uint64`` - the unsigned and signed 64 bit data types, defined as ``long long``, resp. ``unsigned long long`` on all platforms where ``long long`` is 64 bits.
+- ``bitd_int64``, ``bitd_uint64`` - the unsigned and signed 64 bit data types, defined as ``long long``, resp. ``unsigned long long`` on all platforms where ``long long`` is 64 bits.
 
-- ``bitd-double`` - the double float type.
+- ``bitd_double`` - the double float type.
 
-The header file defines, in similar vein, data types for smaller width integers: ``bitd-int8``, ``bitd-uint8``, ``bitd-int16``, ``bitd-uint16``, ``bitd-int32``, ``bitd-uint32``. While these types are used frequently in the source code, the Bitdribble object model represents all integers as either ``bitd-int64`` or ``bitd-uint64``, for simplicity.
+The header file defines, in similar vein, data types for smaller width integers: ``bitd_int8``, ``bitd_uint8``, ``bitd_int16``, ``bitd_uint16``, ``bitd_int32``, ``bitd_uint32``. While these types are used frequently in the source code, the Bitdribble object model represents all integers parsed from ``yaml`` or ``xml`` as either ``bitd_int64`` or ``bitd_uint64``, for simplicity. No ``bitd_float`` type is defined - we use ``bitd_double`` instead.
 
 The composite data types for ``C`` objects are:
 
-- ``bitd-string``, for NULL-terminated ``char *`` strings.
+- ``bitd_string``, for NULL-terminated ``char *`` strings.
 
-- ``bitd-blob``, which holds arbitray buffers that may contain the character ``0``. 
+- ``bitd_blob``, which holds arbitray buffers that may contain the character ``0``. 
+
+.. code::
+
+   /* The blob type */
+   typedef struct {
+       bitd_uint32 nbytes;
+   } bitd_blob;
+
+   #define bitd_blob_size(b) ((b)->nbytes)
+   #define bitd_blob_payload(b) ((char *)(((bitd_blob *)b)+1))
+ 
+The ``bitd_blob`` contains a 4 byte length field followed by the actual blob payload. 
+
+- ``bitd_nvp_t``, which holds an array of name-value pairs, each element of which has its own type. In short, this type is called an ``nvp``. Elements in an ``nvp`` can have any simple or composite type, including the ``nvp`` type itself.
+
+.. code::
+
+   /* Forward declaration */
+   struct bitd_nvp_s;
+
+   /* Enumeration of types */
+   typedef enum {
+       bitd_type_void,
+       bitd_type_boolean,
+       bitd_type_int64,
+       bitd_type_uint64,
+       bitd_type_double,
+       bitd_type_string,
+       bitd_type_blob,
+       bitd_type_nvp,
+       bitd_type_max
+   } bitd_type_t;
+
+   /* Untyped value */
+   typedef union {
+       bitd_boolean value_boolean;
+       bitd_int64 value_int64;
+       bitd_uint64 value_uint64;
+       bitd_double value_double;
+       bitd_string value_string;
+       bitd_blob *value_blob;
+       struct bitd_nvp_s *value_nvp;
+   } bitd_value_t;
+
+   /* A name-value-pair element - or 'nvp element' */
+   typedef struct {
+       char *name; 
+       bitd_value_t v;
+       bitd_type_t type;
+   } bitd_nvp_element_t;
+
+   /* A name-value-pair array - or 'nvp' */
+   typedef struct bitd_nvp_s {
+       int n_elts;
+       int n_elts_allocated;
+       bitd_nvp_element_t e[1]; /* Array of named objects */
+   } *bitd_nvp_t;
+
