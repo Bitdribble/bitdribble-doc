@@ -194,4 +194,10 @@ The source code
 ---------------
 The implementation of the ``yaml`` object model is in src/libs/bitd/types-yaml.c.
 
+The Xml object model
+====================
+For a quick introduction to ``xml``, see https://en.wikipedia.org/wiki/XML. A Bitdribble object is converted into an  Simple bitdribble types are represented in ``yaml`` as follows:
 
+bitd_void
+---------
+TO BE CONTINUED...
