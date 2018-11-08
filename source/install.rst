@@ -197,7 +197,7 @@ The default ``openssl`` and ``curl`` libraries installed by OSX are incompatible
 
 .. code-block:: none
 
-   brew install expat libyaml openssl curl
+   brew install expat libyaml jansson libmicrohttpd openssl curl
 
    cd .../bitdribble
    mkdir build && cd build && cmake ..
@@ -211,7 +211,7 @@ Use the Cygwin Setup program to install these packages:
 
 - Debug, Devel categories
 
-- expat-devel, openssl-devel, libcurl-devel. 
+- expat-devel, openssl-devel, libjasson-devel, micro-httpd, libcurl-devel. 
 
 In a Cygwin bash terminal, do the following:
 
