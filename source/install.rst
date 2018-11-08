@@ -128,7 +128,8 @@ After upgrading all the packages, the root file system became 35% full. To compi
 .. code-block:: none
 
   sudo apt-get install build-essential cmake \
-	libexpat-dev libyaml-dev libssl-dev libcurl4-openssl-dev
+	libexpat-dev libyaml-dev libjansson-dev libmicrohttpd-dev \
+	libssl-dev libcurl4-openssl-dev
 
   cd .../bitdribble
   mkdir build && cd build && cmake ..
@@ -163,7 +164,21 @@ To uninstall the package:
 
 OpenWRT
 -------
-Use `these instructions <https://wiki.openwrt.org/doc/howto/buildroot.exigence>`_ to install the OpenWRT SDK sources on Ubuntu. At the *make menuconfig* step, enable compilation of ``Libraries->libexpat``, ``Libraries->Languages->libyaml``, ``Libraries->SSL->libopenssl``, ``Libraries->libcurl``. These packages should either be included in the firmware image file, or should be installed with ``opkg`` after the firmware has been flashed to the device.
+Use `these instructions <https://wiki.openwrt.org/doc/howto/buildroot.exigence>`_ to install the OpenWRT SDK sources on Ubuntu. At the *make menuconfig* step, enable compilation of 
+
+- ``Libraries->jansson``
+
+- ``Libraries->libexpat``
+
+- ``Libraries->libmicrohttpd`` (leave ``libmicrohttpd-no-ssl`` unchecked)
+
+- ``Libraries->Languages->libyaml``
+
+- ``Libraries->SSL->libopenssl``
+
+- ``Libraries->libcurl``
+
+These packages should either be included in the firmware image file, or should be installed with ``opkg`` after the firmware has been flashed to the device.
 
 In this example, we build OpenWRT for ``Target System (x86)``, ``Subtarget (x86_64)``, and we enable ``Target Image->VMDK``. The resulting toolchain under ``openwrt/staging_dir`` is ``toolchain-x86_64_gcc-7.3.0_musl``, and the target is ``target-x86_64_musl``. We use these settings to create ``bitdribble/cmake/Toolchains/Toolchain-openwrt-x86_64_gcc_musl.cmake`` in the ``bitdribble`` source tree, then we build the ``bitdribble`` code:
 
