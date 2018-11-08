@@ -80,7 +80,7 @@ Ubuntu 18.04 has been tested. The default ``cmake`` on Ubuntu 18.04 has version 
 
 .. code-block:: none
 
-  sudo apt-get install libexpat-dev libyaml-dev jansson-dev libssl-dev libcurl4-openssl-dev
+  sudo apt-get install libexpat-dev libyaml-dev libjansson-dev libmicrohttpd-dev libssl-dev libcurl4-openssl-dev
 
   cd .../bitdribble
   mkdir build && cd build && cmake ..
