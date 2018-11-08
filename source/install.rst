@@ -31,7 +31,7 @@ The source code is available under Apache 2.0 license at https://github.com/bitd
 		
    git clone git@github.com:bitdribble/bitdribble.git
 
-All platforms require the ``expat``, ``libyaml``, ``openssl`` and ``libcurl`` development libraries installed.
+All platforms require the ``expat``, ``libyaml``, ``jansson``, ``microhttpd``, ``openssl`` and ``libcurl`` development libraries installed.
 
 .. To do: include libmicrohttpd and libmicrohttpd-devel once we need it.
 
@@ -41,7 +41,7 @@ Centos 7 has been tested. The default ``cmake`` on Centos 7 is version 2. We nee
 
 .. code-block:: none
 
-   sudo yum install cmake3 expat-devel libyaml-devel openssl-devel libcurl-devel
+   sudo yum install cmake3 expat-devel libyaml-devel jansson-devel libmicrohttpd-devel openssl-devel libcurl-devel
 
    cd .../bitdribble
    mkdir build && cd build && cmake3 ..
@@ -80,7 +80,7 @@ Ubuntu 18.04 has been tested. The default ``cmake`` on Ubuntu 18.04 has version 
 
 .. code-block:: none
 
-  sudo apt-get install libexpat-dev libyaml-dev libssl-dev libcurl4-openssl-dev
+  sudo apt-get install libexpat-dev libyaml-dev jansson-dev libssl-dev libcurl4-openssl-dev
 
   cd .../bitdribble
   mkdir build && cd build && cmake ..
