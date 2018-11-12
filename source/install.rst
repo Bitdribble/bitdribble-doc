@@ -219,7 +219,9 @@ Use the Cygwin Setup program to install these packages:
 
 - libcurl-devel. 
 
-The ``libmicrohttpd`` package needs to be compiled from sources, since it is unavailable at this time as a Cygwin package. Download the libmicrohttpd-0.9.60 or later package from https://ftp.gnu.org/gnu/libmicrohttpd, untar it, and at a Cygwin bash terminal run ``configure`` followed by ``make`` and ``make install``.
+Additional packages not included in the Cygwin distribution must be compiled from sources, running ``configure`` then ``make && make install``. Following package needs to be compiled from sources:
+
+- libmicrohttpd version 0.9.60 or later.
 
 Then, in a Cygwin bash terminal, do the following:
 
@@ -240,11 +242,15 @@ The installer package can be set up as a ``.tar.bz2`` archive with the command *
 
 Windows
 -------
-We use the ``mingw`` cross compilers distributed as ``Cygwin`` package. The instructions below assume a 64 bit Cygwin installation. Install all the Cygwin ``mingw64-x86_64`` and ``mingw64-i686`` packages. Additional packages can be compiled from sources running respectively
+We use the ``mingw`` cross compilers distributed as ``Cygwin`` package. The instructions below assume a 64 bit Cygwin installation. Install all the Cygwin ``mingw64-x86_64`` and ``mingw64-i686`` packages. Additional packages can be compiled from sources running
 
-- ``configure --host=x86_64-w64-mingw32 --prefix=/usr/x86_64-w64-mingw32/sys-root/mingw``
+.. code-block:: none
 
-- ``configure --host=i686-w64-mingw32 --prefix=/usr/i686-w64-mingw32/sys-root/mingw``
+   configure --host=x86_64-w64-mingw32 --prefix=/usr/x86_64-w64-mingw32/sys-root/mingw
+   # respectively
+   configure --host=i686-w64-mingw32 --prefix=/usr/i686-w64-mingw32/sys-root/mingw
+   # both followed by
+   make && make install
 
 As explained in the ``Cygwin`` section, you need a version of ``Cygwin`` that distributes ``cmake`` version 3. 
 
