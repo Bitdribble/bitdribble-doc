@@ -217,11 +217,11 @@ Use the Cygwin Setup program to install these packages:
 
 - libjansson-devel
 
-- micro-httpd
-
 - libcurl-devel. 
 
-In a Cygwin bash terminal, do the following:
+The ``libmicrohttpd`` package needs to be compiled from sources, since it is unavailable at this time as a Cygwin package. Download the libmicrohttpd-0.9.60 or later package from https://ftp.gnu.org/gnu/libmicrohttpd, untar it, and at a Cygwin bash terminal run ``configure`` followed by ``make`` and ``make install``.
+
+Then, in a Cygwin bash terminal, do the following:
 
 .. code-block:: none
 
@@ -240,7 +240,15 @@ The installer package can be set up as a ``.tar.bz2`` archive with the command *
 
 Windows
 -------
-We use the ``mingw`` cross compilers under ``Cygwin``. Install all the Cygwin ``mingw64-i686`` and ``mingw64-x86_64`` packages. As explained in the ``Cygwin`` section, you need a version of ``Cygwin`` that distributes ``cmake`` version 3. The instructions below assume a 64 bit Cygwin installation. For 64 bit Windows builds:
+We use the ``mingw`` cross compilers distributed as ``Cygwin`` package. The instructions below assume a 64 bit Cygwin installation. Install all the Cygwin ``mingw64-x86_64`` and ``mingw64-i686`` packages. Additional packages can be compiled from sources running respectively
+
+- ``configure --host=x86_64-w64-mingw32``
+
+- ``configure --host=i686-w64-mingw32``
+
+As explained in the ``Cygwin`` section, you need a version of ``Cygwin`` that distributes ``cmake`` version 3. 
+
+For 64 bit Windows builds:
 
 .. code-block:: none
 
