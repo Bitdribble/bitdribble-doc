@@ -211,7 +211,15 @@ Use the Cygwin Setup program to install these packages:
 
 - Debug, Devel categories
 
-- expat-devel, openssl-devel, libjasson-devel, micro-httpd, libcurl-devel. 
+- expat-devel
+
+- openssl-devel
+
+- libjansson-devel
+
+- micro-httpd
+
+- libcurl-devel. 
 
 In a Cygwin bash terminal, do the following:
 
