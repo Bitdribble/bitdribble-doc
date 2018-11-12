@@ -221,7 +221,7 @@ Use the Cygwin Setup program to install these packages:
 
 Additional packages not included in the Cygwin distribution must be compiled from sources, running ``configure`` then ``make && make install``. Following package needs to be compiled from sources:
 
-- libmicrohttpd version 0.9.60 or later.
+- libmicrohttpd version 0.9.60 or later
 
 Then, in a Cygwin bash terminal, do the following:
 
@@ -242,7 +242,17 @@ The installer package can be set up as a ``.tar.bz2`` archive with the command *
 
 Windows
 -------
-We use the ``mingw`` cross compilers distributed as ``Cygwin`` package. The instructions below assume a 64 bit Cygwin installation. Install all the Cygwin ``mingw64-x86_64`` and ``mingw64-i686`` packages. Additional packages can be compiled from sources running
+We use the ``mingw`` cross compilers distributed as ``Cygwin`` package. As explained in the ``Cygwin`` section, you need a version of ``Cygwin`` that distributes ``cmake`` version 3. 
+
+The instructions below assume a 64 bit Cygwin installation. Install all the Cygwin ``mingw64-x86_64`` and ``mingw64-i686`` packages. These packages include:
+
+- expat-devel
+
+- openssl-devel
+
+- libcurl-devel. 
+
+Additional packages must be compiled from sources running
 
 .. code-block:: none
 
@@ -252,7 +262,11 @@ We use the ``mingw`` cross compilers distributed as ``Cygwin`` package. The inst
    # both followed by
    make && make install
 
-As explained in the ``Cygwin`` section, you need a version of ``Cygwin`` that distributes ``cmake`` version 3. 
+The additional packages needed are:
+
+- libjansson version 2.11 or later
+
+- libmicrohttpd version 0.9.60 or later
 
 For 64 bit Windows builds:
 
