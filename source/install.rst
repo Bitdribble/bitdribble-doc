@@ -31,7 +31,7 @@ The source code is available under Apache 2.0 license at https://github.com/bitd
 		
    git clone git@github.com:bitdribble/bitdribble.git
 
-All platforms require the ``expat``, ``libyaml``, ``openssl`` and ``libcurl`` development libraries installed.
+All platforms require the ``expat``, ``libyaml``, ``jansson``, ``microhttpd``, ``openssl`` and ``libcurl`` development libraries installed.
 
 .. To do: include libmicrohttpd and libmicrohttpd-devel once we need it.
 
@@ -41,7 +41,7 @@ Centos 7 has been tested. The default ``cmake`` on Centos 7 is version 2. We nee
 
 .. code-block:: none
 
-   sudo yum install cmake3 expat-devel libyaml-devel openssl-devel libcurl-devel
+   sudo yum install cmake3 expat-devel libyaml-devel jansson-devel libmicrohttpd-devel openssl-devel libcurl-devel
 
    cd .../bitdribble
    mkdir build && cd build && cmake3 ..
@@ -80,7 +80,7 @@ Ubuntu 18.04 has been tested. The default ``cmake`` on Ubuntu 18.04 has version 
 
 .. code-block:: none
 
-  sudo apt-get install libexpat-dev libyaml-dev libssl-dev libcurl4-openssl-dev
+  sudo apt-get install libexpat-dev libyaml-dev libjansson-dev libmicrohttpd-dev libssl-dev libcurl4-openssl-dev
 
   cd .../bitdribble
   mkdir build && cd build && cmake ..
@@ -128,7 +128,8 @@ After upgrading all the packages, the root file system became 35% full. To compi
 .. code-block:: none
 
   sudo apt-get install build-essential cmake \
-	libexpat-dev libyaml-dev libssl-dev libcurl4-openssl-dev
+	libexpat-dev libyaml-dev libjansson-dev libmicrohttpd-dev \
+	libssl-dev libcurl4-openssl-dev
 
   cd .../bitdribble
   mkdir build && cd build && cmake ..
@@ -163,7 +164,21 @@ To uninstall the package:
 
 OpenWRT
 -------
-Use `these instructions <https://wiki.openwrt.org/doc/howto/buildroot.exigence>`_ to install the OpenWRT SDK sources on Ubuntu. At the *make menuconfig* step, enable compilation of ``Libraries->libexpat``, ``Libraries->Languages->libyaml``, ``Libraries->SSL->libopenssl``, ``Libraries->libcurl``. These packages should either be included in the firmware image file, or should be installed with ``opkg`` after the firmware has been flashed to the device.
+Use `these instructions <https://wiki.openwrt.org/doc/howto/buildroot.exigence>`_ to install the OpenWRT SDK sources on Ubuntu. At the *make menuconfig* step, enable compilation of 
+
+- ``Libraries->jansson``
+
+- ``Libraries->libexpat``
+
+- ``Libraries->libmicrohttpd`` (leave ``libmicrohttpd-no-ssl`` unchecked)
+
+- ``Libraries->Languages->libyaml``
+
+- ``Libraries->SSL->libopenssl``
+
+- ``Libraries->libcurl``
+
+These packages should either be included in the firmware image file, or should be installed with ``opkg`` after the firmware has been flashed to the device.
 
 In this example, we build OpenWRT for ``Target System (x86)``, ``Subtarget (x86_64)``, and we enable ``Target Image->VMDK``. The resulting toolchain under ``openwrt/staging_dir`` is ``toolchain-x86_64_gcc-7.3.0_musl``, and the target is ``target-x86_64_musl``. We use these settings to create ``bitdribble/cmake/Toolchains/Toolchain-openwrt-x86_64_gcc_musl.cmake`` in the ``bitdribble`` source tree, then we build the ``bitdribble`` code:
 
@@ -182,7 +197,7 @@ The default ``openssl`` and ``curl`` libraries installed by OSX are incompatible
 
 .. code-block:: none
 
-   brew install expat libyaml openssl curl
+   brew install expat libyaml jansson libmicrohttpd openssl curl
 
    cd .../bitdribble
    mkdir build && cd build && cmake ..
@@ -196,9 +211,19 @@ Use the Cygwin Setup program to install these packages:
 
 - Debug, Devel categories
 
-- expat-devel, openssl-devel, libcurl-devel. 
+- expat-devel
 
-In a Cygwin bash terminal, do the following:
+- openssl-devel
+
+- libjansson-devel
+
+- libcurl-devel. 
+
+Additional packages not included in the Cygwin distribution must be compiled from sources, running ``configure`` then ``make && make install``. Following package needs to be compiled from sources:
+
+- libmicrohttpd version 0.9.60 or later
+
+Then, in a Cygwin bash terminal, do the following:
 
 .. code-block:: none
 
@@ -217,7 +242,33 @@ The installer package can be set up as a ``.tar.bz2`` archive with the command *
 
 Windows
 -------
-We use the ``mingw`` cross compilers under ``Cygwin``. Install all the Cygwin ``mingw64-i686`` and ``mingw64-x86_64`` packages. As explained in the ``Cygwin`` section, you need a version of ``Cygwin`` that distributes ``cmake`` version 3. The instructions below assume a 64 bit Cygwin installation. For 64 bit Windows builds:
+We use the ``mingw`` cross compilers distributed as ``Cygwin`` package. As explained in the ``Cygwin`` section, you need a version of ``Cygwin`` that distributes ``cmake`` version 3. 
+
+The instructions below assume a 64 bit Cygwin installation. Install all the Cygwin ``mingw64-x86_64`` and ``mingw64-i686`` packages. These packages include:
+
+- expat-devel
+
+- openssl-devel
+
+- libcurl-devel. 
+
+Additional packages must be compiled from sources running
+
+.. code-block:: none
+
+   configure --host=x86_64-w64-mingw32 --prefix=/usr/x86_64-w64-mingw32/sys-root/mingw
+   # respectively
+   configure --host=i686-w64-mingw32 --prefix=/usr/i686-w64-mingw32/sys-root/mingw
+   # both followed by
+   make && make install
+
+The additional packages needed are:
+
+- libjansson version 2.11 or later
+
+- libmicrohttpd version 0.9.60 or later
+
+For 64 bit Windows builds:
 
 .. code-block:: none
 

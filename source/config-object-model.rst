@@ -156,7 +156,7 @@ Composite bitdribble types are represented in ``yaml`` as follows:
 
 bitd_string
 -----------
-``bitd_string`` is represented in ``yaml`` as a string. Yaml strings that are non-void, non-numeric, and not ``TRUE`` or ``FALSE`` are represemted in ``C`` as ``bitd_string`` types.
+``bitd_string`` is represented in ``yaml`` as a string. Yaml strings that are non-void, non-numeric, and not ``TRUE``, ``True``, ``true``, ``FALSE``, ``False`` or ``false`` are represemted in ``C`` as ``bitd_string`` types.
 
 bitd_blob
 ---------
@@ -176,7 +176,7 @@ This sets a correspondence between objects and ``yaml`` documents that is *onto*
 
 Using Yaml attributes
 ---------------------
-As seen above, ``yaml`` strings are parsed into ``bitd_void`` if empty, or into ``bitd_boolean`` if equal to ``TRUE`` or ``FALSE``, or into ``bitd_int64`` if integers within the ``LLONG_MIN`` and ``LLONG_MAX``, or otherwise into ``bitd_uint64`` if between ``LLONG_MAX+1`` and ``ULLONG_MAX``, or otherwise into ``bitd_double`` if numeric - or, if none of the above, they are parsed as ``bitd_string``.
+As seen above, ``yaml`` strings are parsed into ``bitd_void`` if empty, or into ``bitd_boolean`` if equal to ``TRUE``, ``True``, ``true``, ``FALSE``, ``False`` or ``false``, or into ``bitd_int64`` if integers within the ``LLONG_MIN`` and ``LLONG_MAX``, or otherwise into ``bitd_uint64`` if between ``LLONG_MAX+1`` and ``ULLONG_MAX``, or otherwise into ``bitd_double`` if numeric - or, if none of the above, they are parsed as ``bitd_string``.
 
 This represents the default conversion of ``yaml`` string scalars. The conversion can also be controlled by use of the following ``yaml`` attributes:
 
@@ -216,7 +216,7 @@ We will describe a partial correspondence between ``xml`` documents and *named* 
 
 - If the element is empty, the type is ``bitd_void``.
 
-- If the element is the string ``TRUE`` or ``FALSE``, the type is ``bitd_boolean``.
+- If the element is the string ``TRUE``, ``True``, ``true``, ``FALSE``, ``False`` or ``false``, the type is ``bitd_boolean``.
 
 - If the element is numeric string, the type is ``bitd_int64`` if an integer between ``LLONG_MIN`` and ``LLONG_MAX``, otherwise ``bitd_uint64`` if an integer between ``LLONG_MAX+1`` and ``ULLONG_MAX``, and otherwise a ``bitd_double``.
 
