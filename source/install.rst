@@ -242,9 +242,9 @@ Windows
 -------
 We use the ``mingw`` cross compilers distributed as ``Cygwin`` package. The instructions below assume a 64 bit Cygwin installation. Install all the Cygwin ``mingw64-x86_64`` and ``mingw64-i686`` packages. Additional packages can be compiled from sources running respectively
 
-- ``configure --host=x86_64-w64-mingw32``
+- ``configure --host=x86_64-w64-mingw32 --prefix=/usr/x86_64-w64-mingw32/sys-root/mingw``
 
-- ``configure --host=i686-w64-mingw32``
+- ``configure --host=i686-w64-mingw32 --prefix=/usr/i686-w64-mingw32/sys-root/mingw``
 
 As explained in the ``Cygwin`` section, you need a version of ``Cygwin`` that distributes ``cmake`` version 3. 
 
