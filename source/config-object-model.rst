@@ -430,7 +430,7 @@ For a quick introduction to ``yaml``, see https://en.wikipedia.org/wiki/YAML. Si
 
 bitd_void
 ---------
-``bitd_void`` is formatted as the empty ``yaml`` string. An empty ``yaml`` string is represented as a ``bitd_void`` type.
+``bitd_void`` is represented as the empty ``yaml`` string. An empty ``yaml`` string is represented as a ``bitd_void`` type.
 
 bitd_boolean
 ------------
