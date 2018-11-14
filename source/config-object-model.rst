@@ -157,7 +157,7 @@ Composite bitdribble types are represented in ``json`` as follows:
 
 bitd_string
 -----------
-``bitd_string`` is represented in ``yaml`` as a string. Yaml strings that are non-void, non-numeric, and not ``TRUE``, ``True``, ``true``, ``FALSE``, ``False`` or ``false`` are represemted in ``C`` as ``bitd_string`` types.
+``bitd_string`` is represented in ``json`` as a string. Json strings that are non-void, non-numeric, and not ``TRUE``, ``True``, ``true``, ``FALSE``, ``False`` or ``false`` are represented in ``C`` as ``bitd_string`` types.
 
 bitd_blob
 ---------
@@ -448,7 +448,7 @@ Composite bitdribble types are represented in ``yaml`` as follows:
 
 bitd_string
 -----------
-``bitd_string`` is represented in ``yaml`` as a string. Yaml strings that are non-void, non-numeric, and not ``TRUE``, ``True``, ``true``, ``FALSE``, ``False`` or ``false`` are represemted in ``C`` as ``bitd_string`` types.
+``bitd_string`` is represented in ``yaml`` as a string. Yaml strings that are non-void, non-numeric, and not ``TRUE``, ``True``, ``true``, ``FALSE``, ``False`` or ``false`` are represented in ``C`` as ``bitd_string`` types.
 
 bitd_blob
 ---------
