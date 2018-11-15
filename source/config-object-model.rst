@@ -131,68 +131,55 @@ The ``bitd_object_t`` type holds any arbitrary typed value:
 
 Any object, thus, can be represented as ``bitd_object_t``. This means objects can be ``bitd_boolean``, or ``bitd_int64``, or of ``nvp`` type. And, since ``nvp``` is an array type, the objects of type ``nvp`` can be thought of as arrays of other objects.
 
-
-The Yaml object model
+The Json object model
 =====================
-For a quick introduction to ``yaml``, see https://en.wikipedia.org/wiki/YAML. Simple bitdribble types are represented in ``yaml`` as follows:
+For the definition of ``json``, see https://www.json.org. Simple bitdribble types are represented in ``json`` as follows:
 
 bitd_void
 ---------
-``bitd_void`` is formatted as the empty ``yaml`` string. An empty ``yaml`` string is represented as a ``bitd_void`` type.
+``bitd_void`` is formatted as the ``null`` json value, and the ``null`` json value is represented as a ``bitd_void`` type.
 
 bitd_boolean
 ------------
-``bitd_boolean`` is represented as the ``yaml`` string ``TRUE`` or ``FALSE``. The ``yaml`` strings ``TRUE`` and ``FALSE`` are represented as ``bitd_boolean``.
+``bitd_boolean`` ``TRUE`` is represented in ``json`` as ``true``, and ``bitd_boolean`` ``FALSE`` as ``false``. Conversely, json ``true``, ``false`` are respectively represented as ``bitd_boolean`` values ``TRUE`` and ``FALSE``.
 
 bitd_int64 and bitd_uint64
 --------------------------
-``bitd_int64`` and ``bitd_uint64`` are represented in ``yaml`` as numeric strings. Integer in ``yaml`` are represented as ``bitd_int64``, if between ``LLONG_MIN`` and ``LLONG_MAX``, and ``bitd_uint64`` if between ``LLONG_MAX+1`` and ``ULLONG_MAX``.
+``bitd_int64`` and ``bitd_uint64`` are represented in ``json`` as numeric integers, except when the ``bitd_uint64`` value is larger than ``LONG_MAX``, in which case it is represented as a string. When ``bitd_uint64`` is represented as string, the key name is appended the suffix ``_!!uint64``.
+
+Conversely, numeric ``json`` integers are represented as ``bitd_int64``, or if the key name has a ``_!!uint64`` suffix, as a ``bitd_uint64``.
 
 bitd_double
 -----------
-``bitd_double`` is represented in ``yaml`` as a numeric string formatted as a floating point number, in decimal format. Numeric strings in ``yaml`` that are not integers, or are outside of the ``int64`` and ``uint64`` range are represented in ``C`` as ``bitd_double``.
+``bitd_double`` is represented in ``json`` as a numeric string formatted as a floating point number, in decimal format. Numeric strings in ``json`` that have a floating point, or are outside of the ``int64`` and ``uint64`` range are represented in ``C`` as ``bitd_double``.
 
-Composite bitdribble types are represented in ``yaml`` as follows:
+Composite bitdribble types are represented in ``json`` as follows:
 
 bitd_string
 -----------
-``bitd_string`` is represented in ``yaml`` as a string. Yaml strings that are non-void, non-numeric, and not ``TRUE``, ``True``, ``true``, ``FALSE``, ``False`` or ``false`` are represemted in ``C`` as ``bitd_string`` types.
+``bitd_string`` is represented in ``json`` as a string. Json strings that are non-void, non-numeric, and do not have a key suffix of ``_!!uint64`` or ``_!!blob`` format are represented as ``bitd_string``. 
 
 bitd_blob
 ---------
-``bitd_blob`` types are represented in ``yaml`` as ``base64`` encoded ``!!binary`` types. Conversely, ``!!binary`` yaml types are ``base64`` decoded and represented in ``C`` as ``bitd_blob`` types.
+``bitd_blob`` types are represented in ``json`` as ``base64`` encoded strings, with a key name that gets appended a ``_!!blob`` suffix. Conversely, json values of string type with a key name suffix of ``_!!blob`` are ``base64`` decoded and represented as ``bitd_blob`` types.
 
 Nvp arrays
 ----------
-``bitd_nvp_t`` types are represented in ``yaml`` as non-scalar name-value pairs. ``Nvp`` arrays with all elements having NULL names are represented as ``yaml`` sequences. Conversely, ``yaml`` composite types are represented as ``nvp`` arrays, and ``yaml`` sequences are represented as nvp arrays with NULL-named elements.
+``bitd_nvp_t`` types are represented as ``json object``, if at least one of the element names are non-NULL and a non-zero-length string - and as a json ``array`` otherwise. A ``json object`` is represented as ``nvp`` array, and a ``json`` array is represented as nvp array with NULL-named elements.
 
 Objects
 -------
-The ``bitd_object_t`` type is represented in ``yaml`` simply by representing the underlying type and value of the object in ``yaml``. Conversely, a ``yaml`` document is represented by a ``bitd_object_t`` type.
+The ``bitd_object_t`` type is represented in ``json`` simply by representing the underlying type and value of the object in ``json``. Conversely, a ``json`` object is represented by a ``bitd_object_t`` type.
 
-This sets a correspondence between objects and ``yaml`` documents that is *onto*, in a mathematical sense: any ``yaml`` document corresponds to one or more objects. To see why this correspondence is not also *one to one*, observe that objects containing a string that is an integer corresponds to a ``yaml`` document containing that number's value, which in turn corresponds to an object of integer type.
+This sets a correspondence between ``bitd_object_t`` objects and ``json`` objects that is *onto*, in a mathematical sense: any ``json`` object corresponds to one or more ``bitd_object_t`` objects. 
 
-``Yaml`` files can also contain a stream of documents. For example, the task instance results output of the ``bitd-agent`` is a ``yaml`` stream, with each task instance result being its own document. A ``yaml`` stream corresponds to an ordered set of ``C`` objects.
-
-Using Yaml attributes
+Using Json attributes
 ---------------------
-As seen above, ``yaml`` strings are parsed into ``bitd_void`` if empty, or into ``bitd_boolean`` if equal to ``TRUE``, ``True``, ``true``, ``FALSE``, ``False`` or ``false``, or into ``bitd_int64`` if integers within the ``LLONG_MIN`` and ``LLONG_MAX``, or otherwise into ``bitd_uint64`` if between ``LLONG_MAX+1`` and ``ULLONG_MAX``, or otherwise into ``bitd_double`` if numeric - or, if none of the above, they are parsed as ``bitd_string``.
-
-This represents the default conversion of ``yaml`` string scalars. The conversion can also be controlled by use of the following ``yaml`` attributes:
-
-- ``tag:yaml.org,2002:null`` is converted to ``bitd_void`` type.
-
-- ``tag:yaml.org,2002:bool`` is converted to ``bitd_boolean`` type.
-
-- ``tag:yaml.org,2002:int`` is converted to ``bitd_int64``. The value is truncated if too large.
-
-- ``tag:yaml.org,2002:str`` is converted to ``bitd_string``.
-
-- ``tag:yaml.org,2002:binary`` is converted to ``bitd_blob``.
+The ``bitd_object_t`` type can be implied from the ``json`` value type, but can also be set explicitly in the ``json`` object by appending ``_!!<type>`` to the key name corresponding to the ``json`` value. Here the ``<type>`` is any of ``void``, ``boolean``, ``int64``, ``uint64``, ``double``, ``string``, ``blob`` or ``nvp``.
 
 The source code
 ---------------
-The implementation of the ``yaml`` object model is in src/libs/bitd/types-yaml.c.
+The implementation of the ``json`` object model is in src/libs/bitd/types-json.c.
 
 The Xml object model
 ====================
@@ -423,3 +410,65 @@ If the nvp is named, the name will be stored as the ``xml`` root element name. I
      </full-nvp-value>
    </nvp>
    
+The Yaml object model
+=====================
+For a quick introduction to ``yaml``, see https://en.wikipedia.org/wiki/YAML. Simple bitdribble types are represented in ``yaml`` as follows:
+
+bitd_void
+---------
+``bitd_void`` is represented as the empty ``yaml`` string. An empty ``yaml`` string is represented as a ``bitd_void`` type.
+
+bitd_boolean
+------------
+``bitd_boolean`` is represented as the ``yaml`` string ``TRUE`` or ``FALSE``. The ``yaml`` strings ``TRUE`` and ``FALSE`` are represented as ``bitd_boolean``.
+
+bitd_int64 and bitd_uint64
+--------------------------
+``bitd_int64`` and ``bitd_uint64`` are represented in ``yaml`` as numeric strings. Integer in ``yaml`` are represented as ``bitd_int64``, if between ``LLONG_MIN`` and ``LLONG_MAX``, and ``bitd_uint64`` if between ``LLONG_MAX+1`` and ``ULLONG_MAX``.
+
+bitd_double
+-----------
+``bitd_double`` is represented in ``yaml`` as a numeric string formatted as a floating point number, in decimal format. Numeric strings in ``yaml`` that are not integers, or are outside of the ``int64`` and ``uint64`` range are represented in ``C`` as ``bitd_double``.
+
+Composite bitdribble types are represented in ``yaml`` as follows:
+
+bitd_string
+-----------
+``bitd_string`` is represented in ``yaml`` as a string. Yaml strings that are non-void, non-numeric, and not ``TRUE``, ``True``, ``true``, ``FALSE``, ``False`` or ``false`` are represented in ``C`` as ``bitd_string`` types.
+
+bitd_blob
+---------
+``bitd_blob`` types are represented in ``yaml`` as ``base64`` encoded ``!!binary`` types. Conversely, ``!!binary`` yaml types are ``base64`` decoded and represented in ``C`` as ``bitd_blob`` types.
+
+Nvp arrays
+----------
+``bitd_nvp_t`` types are represented in ``yaml`` as non-scalar name-value pairs. ``Nvp`` arrays with all elements having NULL names are represented as ``yaml`` sequences. Conversely, ``yaml`` composite types are represented as ``nvp`` arrays, and ``yaml`` sequences are represented as nvp arrays with NULL-named elements.
+
+Objects
+-------
+The ``bitd_object_t`` type is represented in ``yaml`` simply by representing the underlying type and value of the object in ``yaml``. Conversely, a ``yaml`` document is represented by a ``bitd_object_t`` type.
+
+This sets a correspondence between objects and ``yaml`` documents that is *onto*, in a mathematical sense: any ``yaml`` document corresponds to one or more objects. To see why this correspondence is not also *one to one*, observe that objects containing a string that is an integer corresponds to a ``yaml`` document containing that number's value, which in turn corresponds to an object of integer type.
+
+``Yaml`` files can also contain a stream of documents. For example, the task instance results output of the ``bitd-agent`` is a ``yaml`` stream, with each task instance result being its own document. A ``yaml`` stream corresponds to an ordered set of ``C`` objects.
+
+Using Yaml attributes
+---------------------
+As seen above, ``yaml`` strings are parsed into ``bitd_void`` if empty, or into ``bitd_boolean`` if equal to ``TRUE``, ``True``, ``true``, ``FALSE``, ``False`` or ``false``, or into ``bitd_int64`` if integers within the ``LLONG_MIN`` and ``LLONG_MAX``, or otherwise into ``bitd_uint64`` if between ``LLONG_MAX+1`` and ``ULLONG_MAX``, or otherwise into ``bitd_double`` if numeric - or, if none of the above, they are parsed as ``bitd_string``.
+
+This represents the default conversion of ``yaml`` string scalars. The conversion can also be controlled by use of the following ``yaml`` attributes:
+
+- ``tag:yaml.org,2002:null`` is converted to ``bitd_void`` type.
+
+- ``tag:yaml.org,2002:bool`` is converted to ``bitd_boolean`` type.
+
+- ``tag:yaml.org,2002:int`` is converted to ``bitd_int64``. The value is truncated if too large.
+
+- ``tag:yaml.org,2002:str`` is converted to ``bitd_string``.
+
+- ``tag:yaml.org,2002:binary`` is converted to ``bitd_blob``.
+
+The source code
+---------------
+The implementation of the ``yaml`` object model is in src/libs/bitd/types-yaml.c.
+
