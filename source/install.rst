@@ -197,7 +197,7 @@ The default ``openssl`` and ``curl`` libraries installed by OSX are incompatible
 
 .. code-block:: none
 
-   brew install expat libyaml jansson libmicrohttpd openssl curl
+   brew install make cmake expat libyaml jansson libmicrohttpd openssl curl
 
    cd .../bitdribble
    mkdir build && cd build && cmake ..
