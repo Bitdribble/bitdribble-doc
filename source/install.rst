@@ -82,7 +82,7 @@ Ubuntu 18.04 has been tested. The default ``cmake`` on Ubuntu 18.04 has version 
 
   sudo add-apt-repository universe
   sudo add-apt-repository multiverse
-  sudo apt-get install libexpat-dev libyaml-dev libjansson-dev libmicrohttpd-dev libssl-dev libcurl4-openssl-dev
+  sudo apt-get install build-essential libexpat-dev libyaml-dev libjansson-dev libmicrohttpd-dev libssl-dev libcurl4-openssl-dev
 
   cd .../bitdribble
   mkdir build && cd build && cmake ..
